@@ -9,8 +9,8 @@ const PORT = 3000;
 const app = express();
 
 // CONFIG
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 // ROUTS
 app.use('/',entryRouter);
