@@ -7,9 +7,7 @@ export const addEntry = async (req, res, next) => {
     try {
         const entry = new Entry({ item, tstamp });
         const added = await entry.save();
-
-        console.log(`Controller::addEntry: ${{ item, tstamp }}`);
-
+        console.log(`Controller::addEntry: ${entry}`);
         res.status(201).json(added);
     } catch (err) {
         console.error("Controller::addEntry:", err.message);
@@ -19,11 +17,12 @@ export const addEntry = async (req, res, next) => {
 
 export const getEntries = async (req, res, next) => {
     try {
-        const entrys = await Entry.find();
-        if (!entrys) {
+        const entries = await Entry.find();
+        if (!entries) {
             throw { statusCode: 404, message: 'Entrys not found !' };
         }
-        res.json(entrys);
+        console.log(`Controller::getEntries: ${"entries"}`);
+        res.json(entries);
     } catch (err) {
         console.error('Controller::getEntries:', err.message);
         next(err)
@@ -38,25 +37,27 @@ export const getEntryById = async (req, res, next) => {
         if (!entry) {
             throw { statusCode: 404, message: `Entry '${id}' not found !` };
         }
+        console.log('Controller::getEntryById:', entry);
         res.json(entry);
     } catch (err) {
-        console.error('Controller::getEntries:', err.message);
+        console.error('Controller::getEntryById:', err.message);
         next(err)
     }
 }
 
 export const updateEntry = async (req, res, next) => {
-    const { item } = req.body;
+    const { item, checked } = req.body;
     const { id } = req.params;
     const tstamp = Date.now();
 
     try {
         const updateEntry = await Entry.findByIdAndUpdate(
-            id, { item, tstamp }, { new: true }
+            id, { item, tstamp, checked }, { new: true }
         );
         if (!updateEntry) {
             throw { statusCode: 404, message: `Entry: "${id} ${item} "${tstamp} not found !` }
         }
+        console.error("Controller::updateEntry:", updateEntry);
         res.json(updateEntry);
     } catch (err) {
         console.error("Controller::updateEntry:", err.message);
@@ -72,6 +73,7 @@ export const deleteEntry = async (req, res, next) => {
         if (!deleteEntry) {
             throw { statusCode: 404, message: `Entry: "${id}" not found !` }
         }
+        console.log("Controller::deleteEntry:", deleteEntry);
         res.json(deleteEntry);
     } catch (err) {
         console.error("Controller::deleteEntry:", err.message);

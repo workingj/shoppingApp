@@ -3,12 +3,14 @@ import timeLogger from "./middleware/timeLogger.js";
 import './db/mongoDBServ.js'
 import entryRouter from "./routes/routes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import cors from 'cors';
 
 const PORT = 3000;
 const app = express();
 
 // CONFIG
 app.use(express.json());
+app.use(cors());
 
 // ROUTS
 app.use('/',entryRouter);

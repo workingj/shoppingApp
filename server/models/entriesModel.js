@@ -13,6 +13,12 @@ const entrySchema = new mongoose.Schema({
         required: [true, "tstamp is required"],
         default: Date(),
     },
+
+    checked: {
+        type: Boolean,
+        required: [true, "checked is required"],
+        default: false,
+    }
 });
 
 export default mongoose.model('Entry', entrySchema);
