@@ -9,7 +9,7 @@ const PORT = 3000;
 const app = express();
 
 // CONFIG
-app.use(cors());
+app.use(cors({ origin: process.env.ORIGIN_URL}));
 app.use(express.json());
 
 // ROUTS
